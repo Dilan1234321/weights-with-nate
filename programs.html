@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Programs | Weights with Nate</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #C8102E;
+    --red-dark: #9B0C22;
+    --black: #0A0A0A;
+    --black-2: #111111;
+    --black-3: #1A1A1A;
+    --black-4: #222222;
+    --white: #F5F0EB;
+    --white-60: rgba(245,240,235,0.6);
+    --white-40: rgba(245,240,235,0.4);
+    --white-10: rgba(245,240,235,0.1);
+    --white-06: rgba(245,240,235,0.06);
+    --white-08: rgba(245,240,235,0.08);
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: var(--font-body); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem; height: 68px;
+    background: rgba(10,10,10,0.92);
+    border-bottom: 1px solid rgba(200,16,46,0.25);
+    backdrop-filter: blur(10px);
+  }
+  .nav-logo { font-family: var(--font-display); font-weight: 900; font-size: 1.35rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--white); text-decoration: none; }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+  .nav-links a { font-family: var(--font-body); font-size: 0.82rem; font-weight: 500; color: rgba(245,240,235,0.6); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s; }
+  .nav-links a:hover, .nav-links a.active { color: var(--red); }
+  .nav-cta { background: var(--red) !important; color: var(--white) !important; padding: 0.5rem 1.25rem !important; border-radius: 2px; font-weight: 500 !important; transition: background 0.2s !important; }
+  .nav-cta:hover { background: var(--red-dark) !important; }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    padding: 140px 3rem 5rem;
+    background: var(--black);
+    position: relative; overflow: hidden;
+    border-bottom: 1px solid var(--white-06);
+  }
+  .page-hero::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 80% at 100% 50%, rgba(200,16,46,0.1) 0%, transparent 65%);
+  }
+  .page-hero-inner { position: relative; z-index: 1; max-width: 700px; }
+  .page-eyebrow { display: inline-flex; align-items: center; gap: 0.6rem; font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); font-weight: 500; margin-bottom: 1.2rem; }
+  .page-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--red); }
+  .page-title { font-family: var(--font-display); font-weight: 900; font-size: clamp(3.5rem, 7vw, 6.5rem); text-transform: uppercase; line-height: 0.92; letter-spacing: -0.01em; color: var(--white); margin-bottom: 1.25rem; }
+  .page-title em { color: var(--red); font-style: normal; }
+  .page-subtitle { font-size: 1.05rem; color: var(--white-60); line-height: 1.7; max-width: 520px; }
+
+  /* ── MARQUEE ── */
+  .marquee-wrap { background: var(--red); overflow: hidden; padding: 0.85rem 0; border-bottom: 1px solid var(--red-dark); }
+  .marquee-track { display: flex; gap: 3rem; width: max-content; animation: marquee 18s linear infinite; }
+  .marquee-item { font-family: var(--font-display); font-size: 1rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; white-space: nowrap; color: var(--white); display: flex; align-items: center; gap: 1.2rem; }
+  .marquee-dot { width: 5px; height: 5px; border-radius: 50%; background: rgba(255,255,255,0.4); display: inline-block; }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── PROGRAM COMPARISON TABLE ── */
+  .compare-section { padding: 5rem 3rem; background: var(--black); }
+  .compare-label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); font-weight: 500; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+  .compare-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--red); }
+  .compare-heading { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.2rem, 4vw, 3.5rem); text-transform: uppercase; color: var(--white); margin-bottom: 3rem; line-height: 0.95; }
+  .compare-heading em { color: var(--red); font-style: normal; }
+
+  .compare-table { width: 100%; border-collapse: collapse; }
+  .compare-table thead tr { border-bottom: 1px solid var(--white-10); }
+  .compare-table th { padding: 0 1.5rem 1.5rem; text-align: center; vertical-align: bottom; }
+  .compare-table th:first-child { text-align: left; width: 24%; }
+  .col-header { background: var(--black-3); border: 1px solid var(--white-08); border-bottom: none; border-radius: 3px 3px 0 0; padding: 1.5rem 1rem; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+  .col-header.featured { background: var(--red); border-color: var(--red); }
+  .col-badge { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; padding: 0.25rem 0.6rem; border-radius: 2px; background: rgba(255,255,255,0.15); color: var(--white); }
+  .col-name { font-family: var(--font-display); font-weight: 900; font-size: 1.3rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--white); }
+  .col-price { font-family: var(--font-display); font-weight: 900; font-size: 2.2rem; color: var(--white); line-height: 1; }
+  .col-price span { font-size: 1rem; font-weight: 500; opacity: 0.7; font-family: var(--font-body); }
+  .col-sub { font-size: 0.78rem; color: rgba(245,240,235,0.6); }
+  .col-header.featured .col-sub { color: rgba(245,240,235,0.8); }
+
+  .compare-table tbody tr { border-bottom: 1px solid var(--white-06); transition: background 0.15s; }
+  .compare-table tbody tr:hover { background: rgba(245,240,235,0.02); }
+  .compare-table td { padding: 1rem 1.5rem; text-align: center; vertical-align: middle; }
+  .compare-table td:first-child { text-align: left; }
+  .feature-name { font-size: 0.88rem; color: var(--white-60); font-weight: 400; }
+  .feature-category { font-family: var(--font-display); font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--red); font-weight: 700; padding: 1.5rem 0 0.5rem; display: block; }
+
+  .col-cell { background: var(--black-3); border-left: 1px solid var(--white-08); border-right: 1px solid var(--white-08); }
+  .col-cell.featured { background: rgba(200,16,46,0.07); border-color: rgba(200,16,46,0.25); }
+  .check { display: inline-flex; align-items: center; justify-content: center; width: 22px; height: 22px; border-radius: 50%; background: rgba(200,16,46,0.15); }
+  .check svg { width: 12px; height: 12px; stroke: var(--red); fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+  .check.featured-check { background: rgba(200,16,46,0.25); }
+  .dash { display: inline-block; width: 16px; height: 1.5px; background: var(--white-40); border-radius: 2px; }
+  .cell-text { font-size: 0.82rem; color: var(--white-60); }
+
+  .compare-table tfoot td { padding-top: 0; }
+  .col-foot { background: var(--black-3); border: 1px solid var(--white-08); border-top: none; border-radius: 0 0 3px 3px; padding: 1.5rem 1rem; }
+  .col-foot.featured { background: rgba(200,16,46,0.07); border-color: rgba(200,16,46,0.25); }
+  .btn-program { display: block; width: 100%; font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.9rem 1rem; border-radius: 2px; text-decoration: none; text-align: center; transition: background 0.2s, transform 0.15s; cursor: pointer; border: none; }
+  .btn-program.outline { background: transparent; color: var(--white); border: 1px solid var(--white-40); }
+  .btn-program.outline:hover { border-color: var(--red); color: var(--red); }
+  .btn-program.solid { background: var(--red); color: var(--white); }
+  .btn-program.solid:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+  /* ── PROGRAM DETAIL CARDS ── */
+  .programs-section { padding: 5rem 3rem; background: var(--black-2); border-top: 1px solid var(--white-06); }
+  .programs-heading { font-family: var(--font-display); font-weight: 900; font-size: clamp(2.2rem, 4vw, 3.5rem); text-transform: uppercase; color: var(--white); margin-bottom: 3rem; line-height: 0.95; }
+  .programs-heading em { color: var(--red); font-style: normal; }
+
+  .program-card {
+    display: grid; grid-template-columns: 1fr 2fr; gap: 0;
+    border: 1px solid var(--white-08); border-radius: 3px;
+    overflow: hidden; margin-bottom: 1.5rem;
+    transition: border-color 0.2s;
+  }
+  .program-card:hover { border-color: rgba(200,16,46,0.35); }
+  .program-card.featured-card { border-color: rgba(200,16,46,0.4); }
+
+  .card-aside {
+    background: var(--black-3); padding: 2.5rem 2rem;
+    display: flex; flex-direction: column; justify-content: space-between;
+    border-right: 1px solid var(--white-08); position: relative; overflow: hidden;
+  }
+  .featured-card .card-aside { background: var(--red); border-right-color: transparent; }
+  .card-aside::before {
+    content: attr(data-num); font-family: var(--font-display); font-weight: 900;
+    font-size: 8rem; line-height: 1; color: rgba(245,240,235,0.05);
+    position: absolute; bottom: -1rem; right: -0.5rem; pointer-events: none;
+  }
+  .featured-card .card-aside::before { color: rgba(0,0,0,0.12); }
+  .card-tag { font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--red); font-weight: 600; margin-bottom: 0.75rem; }
+  .featured-card .card-tag { color: rgba(245,240,235,0.7); }
+  .card-aside-title { font-family: var(--font-display); font-weight: 900; font-size: 2rem; text-transform: uppercase; line-height: 1; color: var(--white); }
+  .card-price-block { margin-top: 2rem; }
+  .card-price { font-family: var(--font-display); font-weight: 900; font-size: 2.6rem; color: var(--white); line-height: 1; }
+  .card-price-note { font-size: 0.78rem; color: rgba(245,240,235,0.55); margin-top: 0.25rem; }
+  .featured-card .card-price-note { color: rgba(245,240,235,0.75); }
+
+  .card-body { background: var(--black-2); padding: 2.5rem 2.5rem; display: flex; flex-direction: column; justify-content: space-between; gap: 1.5rem; }
+  .featured-card .card-body { background: rgba(200,16,46,0.04); }
+  .card-desc { font-size: 0.95rem; color: var(--white-60); line-height: 1.75; }
+  .card-features { list-style: none; display: flex; flex-direction: column; gap: 0.6rem; }
+  .card-features li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 0.88rem; color: var(--white-60); line-height: 1.5; }
+  .card-features li::before { content: ''; display: inline-block; flex-shrink: 0; width: 6px; height: 6px; border-radius: 50%; background: var(--red); margin-top: 0.45rem; }
+  .card-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-card-primary { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.85rem 2rem; border-radius: 2px; background: var(--red); color: var(--white); text-decoration: none; display: inline-block; transition: background 0.2s, transform 0.15s; border: none; cursor: pointer; }
+  .btn-card-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+  .btn-card-ghost { font-family: var(--font-display); font-weight: 700; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.85rem 2rem; border-radius: 2px; background: transparent; color: var(--white); border: 1px solid var(--white-40); text-decoration: none; display: inline-block; transition: border-color 0.2s, color 0.2s; cursor: pointer; }
+  .btn-card-ghost:hover { border-color: var(--red); color: var(--red); }
+
+  /* ── FAQ / GUARANTEE ── */
+  .guarantee { padding: 5rem 3rem; background: var(--black); border-top: 1px solid var(--white-06); display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+  .guarantee-text .section-label { font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); font-weight: 500; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.6rem; }
+  .guarantee-text .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--red); }
+  .guarantee-heading { font-family: var(--font-display); font-weight: 900; font-size: clamp(2rem, 4vw, 3.2rem); text-transform: uppercase; color: var(--white); line-height: 0.95; margin-bottom: 1.25rem; }
+  .guarantee-heading em { color: var(--red); font-style: normal; }
+  .guarantee-body { font-size: 0.95rem; color: var(--white-60); line-height: 1.8; }
+  .faq-list { display: flex; flex-direction: column; gap: 0; }
+  .faq-item { border-bottom: 1px solid var(--white-08); }
+  .faq-q { width: 100%; background: none; border: none; color: var(--white); font-family: var(--font-body); font-size: 0.92rem; font-weight: 500; text-align: left; padding: 1.25rem 0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: color 0.2s; }
+  .faq-q:hover { color: var(--red); }
+  .faq-icon { width: 18px; height: 18px; flex-shrink: 0; position: relative; }
+  .faq-icon::before, .faq-icon::after { content: ''; position: absolute; background: currentColor; border-radius: 2px; transition: transform 0.25s, opacity 0.25s; }
+  .faq-icon::before { width: 12px; height: 1.5px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .faq-icon::after { width: 1.5px; height: 12px; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+  .faq-item.open .faq-icon::after { transform: translate(-50%, -50%) rotate(90deg); opacity: 0; }
+  .faq-a { font-size: 0.88rem; color: var(--white-60); line-height: 1.75; max-height: 0; overflow: hidden; transition: max-height 0.35s ease, padding 0.25s; }
+  .faq-item.open .faq-a { max-height: 200px; padding-bottom: 1.25rem; }
+
+  /* ── CTA BANNER ── */
+  .cta-banner { padding: 6rem 3rem; text-align: center; background: var(--black); border-top: 1px solid var(--white-06); position: relative; overflow: hidden; }
+  .cta-banner::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(200,16,46,0.14) 0%, transparent 70%); }
+  .cta-big { font-family: var(--font-display); font-size: clamp(3rem, 8vw, 6.5rem); font-weight: 900; text-transform: uppercase; line-height: 0.92; color: var(--white); margin-bottom: 1.25rem; position: relative; z-index: 1; }
+  .cta-big em { color: var(--red); font-style: normal; }
+  .cta-sub { font-size: 1rem; color: var(--white-60); margin-bottom: 2.5rem; position: relative; z-index: 1; }
+  .btn-primary { background: var(--red); color: var(--white); border: none; cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.1em; padding: 1.1rem 2.8rem; border-radius: 2px; transition: background 0.2s, transform 0.15s; text-decoration: none; display: inline-block; position: relative; z-index: 1; }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+
+  /* ── FOOTER ── */
+  footer { padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--white-08); background: var(--black); }
+  .footer-logo { font-family: var(--font-display); font-weight: 900; font-size: 1rem; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(245,240,235,0.4); text-decoration: none; }
+  .footer-logo span { color: var(--red); }
+  .footer-copy { font-size: 0.78rem; color: rgba(245,240,235,0.25); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .page-hero-inner > * { animation: fadeUp 0.65s ease both; }
+  .page-eyebrow { animation-delay: 0.1s; }
+  .page-title { animation-delay: 0.2s; }
+  .page-subtitle { animation-delay: 0.35s; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .compare-section { overflow-x: auto; }
+    .compare-table { min-width: 700px; }
+  }
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .page-hero { padding: 120px 1.5rem 3.5rem; }
+    .compare-section, .programs-section, .guarantee, .cta-banner { padding-left: 1.5rem; padding-right: 1.5rem; }
+    .program-card { grid-template-columns: 1fr; }
+    .card-aside { border-right: none; border-bottom: 1px solid var(--white-08); }
+    .guarantee { grid-template-columns: 1fr; gap: 2.5rem; }
+    footer { flex-direction: column; gap: 0.75rem; text-align: center; padding: 1.5rem; }
+  }
+  @media (max-width: 600px) {
+    .nav-links li:not(:last-child) { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="index.html" class="nav-logo">Weights <span>with Nate</span></a>
+  <ul class="nav-links">
+    <li><a href="about.html">About</a></li>
+    <li><a href="programs.html" class="active">Programs</a></li>
+    <li><a href="testimonials.html">Results</a></li>
+    <li><a href="contact.html" class="nav-cta">Book a Call</a></li>
+  </ul>
+</nav>
+
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-inner">
+    <div class="page-eyebrow">Online Training Programs</div>
+    <h1 class="page-title">Pick Your<br/><em>Program.</em></h1>
+    <p class="page-subtitle">Every program is built around your goals — not a template. Choose the level of coaching that fits your lifestyle and let's get to work.</p>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">1-on-1 Coaching <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Muscle Building <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fat Loss <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Custom Programs <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Nutrition Guidance <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Weekly Check-ins <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Real Results <span class="marquee-dot"></span></div>
+    <div class="marquee-item">1-on-1 Coaching <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Muscle Building <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fat Loss <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Custom Programs <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Nutrition Guidance <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Weekly Check-ins <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Real Results <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- COMPARISON TABLE -->
+<section class="compare-section">
+  <div class="compare-label">Compare Programs</div>
+  <h2 class="compare-heading">What's <em>Included.</em></h2>
+  <table class="compare-table">
+    <thead>
+      <tr>
+        <th></th>
+        <th>
+          <div class="col-header">
+            <div class="col-name">Muscle Builder</div>
+            <div class="col-price">$99 <span>/ mo</span></div>
+            <div class="col-sub">Self-guided + support</div>
+          </div>
+        </th>
+        <th>
+          <div class="col-header">
+            <div class="col-name">Fat Loss</div>
+            <div class="col-price">$99 <span>/ mo</span></div>
+            <div class="col-sub">Self-guided + support</div>
+          </div>
+        </th>
+        <th>
+          <div class="col-header featured">
+            <div class="col-badge">Most Popular</div>
+            <div class="col-name">1-on-1 Coaching</div>
+            <div class="col-price">$249 <span>/ mo</span></div>
+            <div class="col-sub">Full access to Nate</div>
+          </div>
+        </th>
+        <th>
+          <div class="col-header">
+            <div class="col-name">Custom</div>
+            <div class="col-price">$349 <span>/ mo</span></div>
+            <div class="col-sub">Built from scratch</div>
+          </div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td colspan="5"><span class="feature-category">Training</span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Structured workout plan</td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Personalized to your schedule</td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Program adjustments</td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+      <tr>
+        <td colspan="5"><span class="feature-category">Nutrition</span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Nutrition guidelines</td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Custom macro targets</td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+      <tr>
+        <td colspan="5"><span class="feature-category">Coaching & Support</span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Weekly check-ins</td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Direct messaging with Nate</td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+      <tr>
+        <td class="feature-name">Form check video review</td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell"><span class="dash"></span></td>
+        <td class="col-cell featured"><span class="check featured-check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+        <td class="col-cell"><span class="check"><svg viewBox="0 0 12 12"><polyline points="2,6 5,9 10,3"/></svg></span></td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <td></td>
+        <td><div class="col-foot"><a href="contact.html" class="btn-program outline">Get Started</a></div></td>
+        <td><div class="col-foot"><a href="contact.html" class="btn-program outline">Get Started</a></div></td>
+        <td><div class="col-foot featured"><a href="contact.html" class="btn-program solid">Book a Call</a></div></td>
+        <td><div class="col-foot"><a href="contact.html" class="btn-program outline">Get Started</a></div></td>
+      </tr>
+    </tfoot>
+  </table>
+</section>
+
+<!-- PROGRAM DETAIL CARDS -->
+<section class="programs-section">
+  <div class="compare-label">Program Details</div>
+  <h2 class="programs-heading">Deep <em>Dive.</em></h2>
+
+  <!-- 1-on-1 Coaching -->
+  <div class="program-card featured-card">
+    <div class="card-aside" data-num="01">
+      <div>
+        <div class="card-tag">Most Popular</div>
+        <div class="card-aside-title">1-on-1<br/>Coaching</div>
+      </div>
+      <div class="card-price-block">
+        <div class="card-price">$249</div>
+        <div class="card-price-note">per month &mdash; cancel anytime</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">This is the full Nate experience. You get a custom training plan built specifically around your body, your schedule, and your goals — plus ongoing support so you're never left guessing. Nate adjusts your program weekly based on your progress and feedback.</p>
+      <ul class="card-features">
+        <li>Fully personalized training program, updated weekly</li>
+        <li>Custom macros and nutrition roadmap</li>
+        <li>Weekly video or voice check-ins</li>
+        <li>Direct messaging access to Nate (Mon–Fri)</li>
+        <li>Form check video reviews</li>
+        <li>Progress tracking and monthly assessments</li>
+      </ul>
+      <div class="card-actions">
+        <a href="contact.html" class="btn-card-primary">Book a Free Call &rarr;</a>
+        <a href="#compare" class="btn-card-ghost">Compare Plans</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Muscle Builder -->
+  <div class="program-card">
+    <div class="card-aside" data-num="02">
+      <div>
+        <div class="card-tag">Program</div>
+        <div class="card-aside-title">Muscle<br/>Builder</div>
+      </div>
+      <div class="card-price-block">
+        <div class="card-price">$99</div>
+        <div class="card-price-note">per month &mdash; cancel anytime</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">A structured, proven hypertrophy program designed to help you build lean muscle mass over 12 weeks. Whether you're a beginner picking up your first barbell or an intermediate lifter ready to break through a plateau — this program delivers.</p>
+      <ul class="card-features">
+        <li>12-week progressive overload training program</li>
+        <li>Beginner and intermediate tracks available</li>
+        <li>Nutrition guidelines and protein targets</li>
+        <li>Exercise video library with coaching cues</li>
+        <li>Access to Nate's private client community</li>
+      </ul>
+      <div class="card-actions">
+        <a href="contact.html" class="btn-card-primary">Get Started &rarr;</a>
+        <a href="#compare" class="btn-card-ghost">Compare Plans</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fat Loss -->
+  <div class="program-card">
+    <div class="card-aside" data-num="03">
+      <div>
+        <div class="card-tag">Program</div>
+        <div class="card-aside-title">Fat Loss<br/>Program</div>
+      </div>
+      <div class="card-price-block">
+        <div class="card-price">$99</div>
+        <div class="card-price-note">per month &mdash; cancel anytime</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">Ditch the crash diets. This program combines strategic training and smart nutrition to help you lose fat sustainably — without losing the muscle you've built. You'll learn to eat in a way that actually works long term.</p>
+      <ul class="card-features">
+        <li>12-week fat loss training program</li>
+        <li>Caloric deficit and macro strategy guide</li>
+        <li>Cardio protocol built into the program</li>
+        <li>Nutrition guidelines and meal structure tips</li>
+        <li>Access to Nate's private client community</li>
+      </ul>
+      <div class="card-actions">
+        <a href="contact.html" class="btn-card-primary">Get Started &rarr;</a>
+        <a href="#compare" class="btn-card-ghost">Compare Plans</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Custom -->
+  <div class="program-card">
+    <div class="card-aside" data-num="04">
+      <div>
+        <div class="card-tag">Premium</div>
+        <div class="card-aside-title">Custom<br/>Program</div>
+      </div>
+      <div class="card-price-block">
+        <div class="card-price">$349</div>
+        <div class="card-price-note">per month &mdash; cancel anytime</div>
+      </div>
+    </div>
+    <div class="card-body">
+      <p class="card-desc">No templates. No guesswork. Nate builds your entire program from the ground up — training, nutrition, and lifestyle — designed completely around you. Ideal for clients with specific goals, unique schedules, or those who want the absolute highest level of coaching.</p>
+      <ul class="card-features">
+        <li>100% custom training and nutrition plan</li>
+        <li>Built around your goals, equipment, and schedule</li>
+        <li>All features of 1-on-1 coaching included</li>
+        <li>Priority response and messaging access</li>
+        <li>Monthly strategy calls with Nate</li>
+        <li>Supplement and recovery guidance</li>
+      </ul>
+      <div class="card-actions">
+        <a href="contact.html" class="btn-card-primary">Book a Free Call &rarr;</a>
+        <a href="#compare" class="btn-card-ghost">Compare Plans</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE + FAQ -->
+<section class="guarantee" id="faq">
+  <div class="guarantee-text">
+    <div class="section-label">No Nonsense</div>
+    <h2 class="guarantee-heading">Questions?<br/><em>Answered.</em></h2>
+    <p class="guarantee-body">Nate believes in full transparency. If you have a question not covered here, book a free call and ask him directly — no sales pressure, just a real conversation.</p>
+  </div>
+  <div class="faq-list">
+    <div class="faq-item">
+      <button class="faq-q">Do I need a gym membership?<span class="faq-icon"></span></button>
+      <div class="faq-a">Not necessarily. Nate can build programs for full gyms, home gyms with limited equipment, or even bodyweight only. Just let him know what you have access to.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How do check-ins work?<span class="faq-icon"></span></button>
+      <div class="faq-a">Weekly check-ins are done via a short form or video message. You'll share your progress, how you're feeling, and any issues — Nate reviews everything and adjusts your plan accordingly.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">Can I cancel at any time?<span class="faq-icon"></span></button>
+      <div class="faq-a">Yes, all programs are month-to-month. There are no contracts or lock-ins. Cancel anytime with no penalties.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What app or platform do you use?<span class="faq-icon"></span></button>
+      <div class="faq-a">Nate delivers all programs through a dedicated coaching app where you can track workouts, log nutrition, message him directly, and review your progress over time.</div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How soon will I see results?<span class="faq-icon"></span></button>
+      <div class="faq-a">Most clients notice meaningful changes within 4–6 weeks when they follow the program consistently. Visible body composition changes typically come within 8–12 weeks.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-banner">
+  <h2 class="cta-big">Not Sure<br/>Which <em>Plan?</em></h2>
+  <p class="cta-sub">Book a free 15-minute call and Nate will personally recommend the best fit for your goals.</p>
+  <a href="contact.html" class="btn-primary">Book Your Free Call &rarr;</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="index.html" class="footer-logo">Weights <span>with Nate</span></a>
+  <div class="footer-copy">&copy; 2025 Weights with Nate. All rights reserved.</div>
+</footer>
+
+<script>
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.parentElement;
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    });
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Weights with Nate | Online Personal Training</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #C8102E;
+    --red-dark: #9B0C22;
+    --red-glow: rgba(200,16,46,0.18);
+    --black: #0A0A0A;
+    --black-2: #111111;
+    --black-3: #1A1A1A;
+    --white: #F5F0EB;
+    --gray: #888;
+    --font-display: 'Barlow Condensed', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: var(--font-body); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 3rem; height: 68px;
+    background: rgba(10,10,10,0.92);
+    border-bottom: 1px solid rgba(200,16,46,0.25);
+    backdrop-filter: blur(10px);
+  }
+  .nav-logo {
+    font-family: var(--font-display); font-weight: 900; font-size: 1.35rem;
+    letter-spacing: 0.04em; text-transform: uppercase; color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--red); }
+  .nav-links { display: flex; gap: 2.2rem; list-style: none; align-items: center; }
+  .nav-links a {
+    font-family: var(--font-body); font-size: 0.82rem; font-weight: 500;
+    color: rgba(245,240,235,0.6); text-decoration: none; letter-spacing: 0.1em;
+    text-transform: uppercase; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--red); }
+  .nav-cta {
+    background: var(--red) !important; color: var(--white) !important;
+    padding: 0.5rem 1.25rem !important; border-radius: 2px;
+    font-weight: 500 !important; transition: background 0.2s !important;
+    opacity: 1 !important;
+  }
+  .nav-cta:hover { background: var(--red-dark) !important; color: var(--white) !important; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; align-items: center;
+    position: relative; overflow: hidden;
+    padding: 0 3rem; padding-top: 68px;
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; background: var(--black); }
+  .hero-bg::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 70% 60% at 70% 50%, rgba(200,16,46,0.13) 0%, transparent 70%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+    background-image: linear-gradient(rgba(245,240,235,1) 1px, transparent 1px),
+                      linear-gradient(90deg, rgba(245,240,235,1) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 2; max-width: 820px; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    font-size: 0.75rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--red); font-weight: 500; margin-bottom: 1.5rem;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 28px; height: 1px; background: var(--red);
+  }
+  .hero-headline {
+    font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+    font-size: clamp(4.5rem, 10vw, 9rem); line-height: 0.92;
+    letter-spacing: -0.01em; color: var(--white); margin-bottom: 1.5rem;
+  }
+  .hero-headline em { color: var(--red); font-style: normal; }
+  .hero-sub {
+    font-size: 1.05rem; color: rgba(245,240,235,0.6); max-width: 480px;
+    line-height: 1.7; margin-bottom: 2.5rem; font-weight: 400;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--red); color: var(--white); border: none; cursor: pointer;
+    font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 1rem 2.2rem; border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-1px); }
+  .btn-ghost {
+    background: transparent; color: var(--white); border: 1px solid rgba(245,240,235,0.25);
+    cursor: pointer; font-family: var(--font-display); font-weight: 700; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    padding: 1rem 2.2rem; border-radius: 2px;
+    transition: border-color 0.2s, color 0.2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-ghost:hover { border-color: var(--red); color: var(--red); }
+
+  .hero-stats {
+    display: flex; gap: 2.5rem; margin-top: 4rem;
+    border-top: 1px solid rgba(245,240,235,0.1); padding-top: 2rem;
+  }
+  .stat-num {
+    font-family: var(--font-display); font-weight: 900; font-size: 2.4rem;
+    color: var(--red); letter-spacing: -0.02em;
+  }
+  .stat-label {
+    font-size: 0.75rem; color: rgba(245,240,235,0.5);
+    text-transform: uppercase; letter-spacing: 0.12em;
+  }
+
+  /* MARQUEE */
+  .marquee-wrap {
+    background: var(--red); overflow: hidden; padding: 0.85rem 0;
+    border-top: 1px solid var(--red-dark); border-bottom: 1px solid var(--red-dark);
+  }
+  .marquee-track {
+    display: flex; gap: 3rem; width: max-content;
+    animation: marquee 18s linear infinite;
+  }
+  .marquee-item {
+    font-family: var(--font-display); font-size: 1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.15em; white-space: nowrap;
+    color: var(--white); opacity: 0.95;
+    display: flex; align-items: center; gap: 1.2rem;
+  }
+  .marquee-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: rgba(255,255,255,0.4); display: inline-block;
+  }
+  @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ABOUT */
+  .about-strip {
+    padding: 6rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    background: var(--black-2);
+    border-top: 1px solid rgba(245,240,235,0.06);
+  }
+  .section-label {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--red); font-weight: 500; margin-bottom: 1.2rem;
+    display: flex; align-items: center; gap: 0.6rem;
+  }
+  .section-label::before { content: ''; display: block; width: 20px; height: 1px; background: var(--red); }
+  .section-heading {
+    font-family: var(--font-display); font-weight: 900; text-transform: uppercase;
+    font-size: clamp(2.5rem, 5vw, 4rem); line-height: 0.95; color: var(--white);
+    margin-bottom: 1.5rem; letter-spacing: -0.01em;
+  }
+  .section-heading em { color: var(--red); font-style: normal; }
+  .about-body { font-size: 1rem; color: rgba(245,240,235,0.6); line-height: 1.8; }
+  .about-img-placeholder {
+    background: var(--black-3); border: 1px solid rgba(245,240,235,0.08);
+    border-radius: 3px; aspect-ratio: 4/5;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+  }
+  .about-img-placeholder::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 60% 40%, rgba(200,16,46,0.12) 0%, transparent 60%);
+  }
+  .placeholder-icon {
+    font-family: var(--font-display); font-size: 1rem; letter-spacing: 0.15em;
+    text-transform: uppercase; color: rgba(245,240,235,0.15); position: relative; z-index: 1;
+  }
+  .about-img-badge {
+    position: absolute; bottom: 1.5rem; left: 1.5rem;
+    background: var(--red); color: var(--white);
+    font-family: var(--font-display); font-weight: 700; font-size: 0.8rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 0.5rem 1rem; border-radius: 2px; z-index: 2;
+  }
+
+  /* SERVICES */
+  .services {
+    padding: 6rem 3rem;
+    background: var(--black);
+    border-top: 1px solid rgba(245,240,235,0.06);
+  }
+  .services-header { margin-bottom: 3.5rem; }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px; background: rgba(245,240,235,0.08);
+    border: 1px solid rgba(245,240,235,0.08);
+  }
+  .service-card {
+    background: var(--black); padding: 2.5rem 2rem;
+    transition: background 0.2s; cursor: default;
+  }
+  .service-card:hover { background: var(--black-3); }
+  .service-card:hover .service-num { color: var(--red); }
+  .service-num {
+    font-family: var(--font-display); font-size: 3rem; font-weight: 900;
+    color: rgba(245,240,235,0.08); line-height: 1; margin-bottom: 1.2rem;
+    transition: color 0.2s;
+  }
+  .service-title {
+    font-family: var(--font-display); font-weight: 700; font-size: 1.4rem;
+    text-transform: uppercase; letter-spacing: 0.04em; color: var(--white);
+    margin-bottom: 0.75rem;
+  }
+  .service-desc { font-size: 0.9rem; color: rgba(245,240,235,0.5); line-height: 1.7; }
+
+  /* TESTIMONIALS */
+  .testimonials {
+    padding: 6rem 3rem;
+    background: var(--black-2);
+    border-top: 1px solid rgba(245,240,235,0.06);
+  }
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem; margin-top: 3rem;
+  }
+  .testi-card {
+    background: var(--black-3); border: 1px solid rgba(245,240,235,0.07);
+    border-radius: 3px; padding: 2rem; position: relative;
+  }
+  .testi-card::before {
+    content: '\201C'; font-family: var(--font-display); font-size: 5rem;
+    color: var(--red); opacity: 0.25; position: absolute;
+    top: 0.5rem; left: 1.5rem; line-height: 1;
+  }
+  .testi-text {
+    font-size: 0.95rem; color: rgba(245,240,235,0.7);
+    line-height: 1.75; margin-bottom: 1.5rem; font-style: italic;
+  }
+  .testi-author { display: flex; align-items: center; gap: 0.75rem; }
+  .testi-avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--red); opacity: 0.8;
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-display); font-weight: 700; font-size: 0.9rem; color: var(--white);
+  }
+  .testi-name { font-weight: 500; font-size: 0.88rem; color: var(--white); }
+  .testi-meta { font-size: 0.78rem; color: rgba(245,240,235,0.4); }
+
+  /* CTA BANNER */
+  .cta-banner {
+    padding: 6rem 3rem; text-align: center;
+    background: var(--black);
+    border-top: 1px solid rgba(245,240,235,0.06);
+    position: relative; overflow: hidden;
+  }
+  .cta-banner::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 100% at 50% 100%, rgba(200,16,46,0.14) 0%, transparent 70%);
+  }
+  .cta-big {
+    font-family: var(--font-display); font-size: clamp(3rem, 8vw, 7rem);
+    font-weight: 900; text-transform: uppercase; line-height: 0.92;
+    color: var(--white); margin-bottom: 1.5rem; position: relative; z-index: 1;
+  }
+  .cta-big em { color: var(--red); font-style: normal; }
+  .cta-sub {
+    font-size: 1rem; color: rgba(245,240,235,0.5);
+    margin-bottom: 2.5rem; position: relative; z-index: 1;
+  }
+
+  /* FOOTER */
+  footer {
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(245,240,235,0.08);
+    background: var(--black);
+  }
+  .footer-logo {
+    font-family: var(--font-display); font-weight: 900; font-size: 1rem;
+    text-transform: uppercase; letter-spacing: 0.05em; color: rgba(245,240,235,0.4);
+    text-decoration: none;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-copy { font-size: 0.78rem; color: rgba(245,240,235,0.25); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero-content > * { animation: fadeUp 0.7s ease both; }
+  .hero-eyebrow { animation-delay: 0.1s; }
+  .hero-headline { animation-delay: 0.2s; }
+  .hero-sub { animation-delay: 0.35s; }
+  .hero-actions { animation-delay: 0.5s; }
+  .hero-stats { animation-delay: 0.65s; }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-links { gap: 1.2rem; }
+    .hero { padding: 5rem 1.5rem 3rem; }
+    .about-strip { grid-template-columns: 1fr; gap: 2.5rem; padding: 4rem 1.5rem; }
+    .about-img-placeholder { aspect-ratio: 3/2; }
+    .services { padding: 4rem 1.5rem; }
+    .services-grid { grid-template-columns: 1fr; }
+    .testimonials { padding: 4rem 1.5rem; }
+    .testimonials-grid { grid-template-columns: 1fr; }
+    .cta-banner { padding: 4rem 1.5rem; }
+    footer { padding: 1.5rem; flex-direction: column; gap: 0.75rem; text-align: center; }
+    .hero-stats { gap: 1.5rem; }
+  }
+  @media (max-width: 600px) {
+    .nav-links li:not(:last-child) { display: none; }
+    .hero-stats { flex-wrap: wrap; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVIGATION -->
+<nav>
+  <a href="#" class="nav-logo">Weights <span>with Nate</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Programs</a></li>
+    <li><a href="#testimonials">Results</a></li>
+    <li><a href="#contact" class="nav-cta">Book a Call</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"><div class="hero-grid"></div></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Online Personal Training</div>
+    <h1 class="hero-headline">Build Your<br/><em>Best</em><br/>Body.</h1>
+    <p class="hero-sub">Real coaching. Real results. Whether you want to pack on muscle, shed fat, or just get in the best shape of your life — Nate has a program for you.</p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book a Free Call</a>
+      <a href="#services" class="btn-ghost">View Programs</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Online Coaching</div>
+      </div>
+      <div>
+        <div class="stat-num">1:1</div>
+        <div class="stat-label">Personalized Plans</div>
+      </div>
+      <div>
+        <div class="stat-num">&#8734;</div>
+        <div class="stat-label">Support &amp; Check-ins</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE TICKER -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">Muscle Building <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fat Loss <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Online Coaching <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Custom Programs <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Nutrition Guidance <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Accountability <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Real Results <span class="marquee-dot"></span></div>
+    <!-- Duplicate for seamless loop -->
+    <div class="marquee-item">Muscle Building <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Fat Loss <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Online Coaching <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Custom Programs <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Nutrition Guidance <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Accountability <span class="marquee-dot"></span></div>
+    <div class="marquee-item">Real Results <span class="marquee-dot"></span></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about-strip" id="about">
+  <div>
+    <div class="section-label">About Nate</div>
+    <h2 class="section-heading">Your Coach,<br/>Your <em>Ally.</em></h2>
+    <p class="about-body">Nate isn't your average trainer. He's obsessed with helping everyday people transform their bodies — without the fluff. No cookie-cutter plans, no confusing jargon. Just smart, proven training built around your life and your goals.</p>
+    <br/>
+    <p class="about-body">Whether you've never stepped in a gym or you've hit a plateau — Nate meets you exactly where you are.</p>
+    <a href="#contact" class="btn-primary" style="margin-top: 2rem; display: inline-block;">Work with Nate &rarr;</a>
+  </div>
+  <div class="about-img-placeholder">
+    <!-- Replace the div below with an <img> tag when Nate's photo is ready -->
+    <div class="placeholder-icon">Nate's Photo Here</div>
+    <div class="about-img-badge">Head Coach</div>
+  </div>
+</section>
+
+<!-- SERVICES / PROGRAMS -->
+<section class="services" id="services">
+  <div class="services-header">
+    <div class="section-label">Programs</div>
+    <h2 class="section-heading">Training That <em>Works.</em></h2>
+  </div>
+  <div class="services-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-title">1-on-1 Coaching</div>
+      <p class="service-desc">Fully personalized programming, weekly check-ins, and direct access to Nate. For clients who want the complete experience.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-title">Muscle Builder</div>
+      <p class="service-desc">A structured hypertrophy program designed to help you pack on lean muscle — whether you're a beginner or an intermediate lifter.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-title">Fat Loss Program</div>
+      <p class="service-desc">Sustainable fat loss without sacrificing the muscle you've worked hard to build. Smart training meets smart nutrition.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials" id="testimonials">
+  <div class="section-label">Client Results</div>
+  <h2 class="section-heading">Real People,<br/><em>Real</em> Results.</h2>
+  <div class="testimonials-grid">
+    <div class="testi-card">
+      <p class="testi-text">Working with Nate completely changed how I approach training. I put on 12 lbs of muscle in 4 months and finally understand how to eat for my goals.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">JM</div>
+        <div>
+          <div class="testi-name">Jake M.</div>
+          <div class="testi-meta">Muscle Building Program &middot; 4 months</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <p class="testi-text">I lost 20 lbs and actually enjoyed the process. Nate kept me accountable without making it feel like a chore. 100% worth every penny.</p>
+      <div class="testi-author">
+        <div class="testi-avatar">SR</div>
+        <div>
+          <div class="testi-name">Sara R.</div>
+          <div class="testi-meta">Fat Loss Program &middot; 3 months</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTACT -->
+<section class="cta-banner" id="contact">
+  <h2 class="cta-big">Ready to<br/><em>Transform?</em></h2>
+  <p class="cta-sub">Book a free 15-minute call. No pressure, no commitment — just a conversation about your goals.</p>
+  <!-- Replace href with your Calendly link -->
+  <a href="https://calendly.com/YOUR_LINK_HERE" target="_blank" class="btn-primary" style="font-size: 1.1rem; padding: 1.1rem 2.8rem; position: relative; z-index: 1;">
+    Book Your Free Call &rarr;
+  </a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">Weights <span>with Nate</span></a>
+  <div class="footer-copy">&copy; 2025 Weights with Nate. All rights reserved.</div>
+</footer>
+
+</body>
+</html>
